@@ -1,0 +1,5881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DriveEasy | Car Rental Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+:root{
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --secondary:#0f172a;
+    --bg:#f8fafc;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#64748b;
+    --border:#e2e8f0;
+    --success:#16a34a;
+    --warning:#f59e0b;
+    --danger:#dc2626;
+    --info:#0891b2;
+    --shadow:0 10px 30px rgba(15,23,42,.08);
+}
+
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --border:#334155;
+    --secondary:#f8fafc;
+    --shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    transition:.3s;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.container{
+    width:92%;
+    max-width:1250px;
+    margin:auto;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    box-shadow:0 3px 15px rgba(0,0,0,.05);
+}
+
+.nav-inner{
+    min-height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+    color:var(--primary);
+}
+
+.logo span{
+    color:var(--text);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.nav-links a{
+    font-size:14px;
+    color:var(--muted);
+    font-weight:600;
+}
+
+.nav-links a:hover{
+    color:var(--primary);
+}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:10px;
+    position:relative;
+}
+
+.notification-count{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    background:var(--danger);
+    color:#fff;
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    font-size:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.menu-btn{
+    display:none;
+}
+
+/* ================= BUTTONS ================= */
+
+.btn{
+    border:0;
+    border-radius:9px;
+    padding:11px 17px;
+    font-weight:700;
+    transition:.2s;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.btn-secondary{
+    background:var(--secondary);
+    color:var(--bg);
+}
+
+.btn-outline{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+}
+
+.btn-success{
+    background:var(--success);
+    color:white;
+}
+
+.btn-warning{
+    background:var(--warning);
+    color:white;
+}
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+.btn-small{
+    padding:7px 10px;
+    font-size:12px;
+}
+
+.full{
+    width:100%;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:600px;
+    display:flex;
+    align-items:center;
+    background:
+        linear-gradient(90deg,rgba(2,6,23,.88),rgba(2,6,23,.35)),
+        url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+    color:#fff;
+}
+
+.hero-content{
+    max-width:700px;
+}
+
+.hero h1{
+    font-size:55px;
+    line-height:1.1;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:18px;
+    color:#e2e8f0;
+    margin-bottom:30px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    margin-top:-55px;
+    position:relative;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.stat-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:25px;
+    box-shadow:var(--shadow);
+    text-align:center;
+}
+
+.stat-card h2{
+    color:var(--primary);
+    font-size:28px;
+}
+
+.stat-card p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* ================= SECTIONS ================= */
+
+section{
+    padding:80px 0;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.section-title h2{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.section-title p{
+    color:var(--muted);
+}
+
+/* ================= ABOUT ================= */
+
+.about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:45px;
+    align-items:center;
+}
+
+.about-image{
+    height:390px;
+    border-radius:20px;
+    background:url("https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80")
+    center/cover;
+}
+
+.about-text p{
+    color:var(--muted);
+    margin-bottom:15px;
+}
+
+.feature-list{
+    list-style:none;
+    margin-top:20px;
+}
+
+.feature-list li{
+    padding:8px 0;
+}
+
+/* ================= FILTERS ================= */
+
+.filters{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.input,
+select,
+textarea{
+    width:100%;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:9px;
+    padding:12px;
+    outline:none;
+}
+
+.input:focus,
+select:focus,
+textarea:focus{
+    border-color:var(--primary);
+}
+
+/* ================= CARS ================= */
+
+.cars-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+}
+
+.car-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:17px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.car-image{
+    height:210px;
+    position:relative;
+    overflow:hidden;
+}
+
+.car-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.3s;
+}
+
+.car-card:hover .car-image img{
+    transform:scale(1.05);
+}
+
+.car-status{
+    position:absolute;
+    top:12px;
+    right:12px;
+    padding:5px 10px;
+    border-radius:30px;
+    font-size:11px;
+    font-weight:700;
+    color:white;
+}
+
+.available{
+    background:var(--success);
+}
+
+.booked{
+    background:var(--danger);
+}
+
+.maintenance{
+    background:var(--warning);
+}
+
+.car-body{
+    padding:18px;
+}
+
+.car-body h3{
+    margin-bottom:4px;
+}
+
+.rating{
+    color:#f59e0b;
+    font-size:14px;
+}
+
+.car-price{
+    font-size:22px;
+    font-weight:800;
+    color:var(--primary);
+    margin:10px 0;
+}
+
+.car-info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin:12px 0;
+}
+
+.car-info div{
+    padding:8px;
+    border-radius:8px;
+    background:var(--bg);
+    text-align:center;
+    font-size:11px;
+}
+
+.car-buttons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+/* ================= BOOKING ================= */
+
+.booking-box{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:var(--shadow);
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:17px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:700;
+    font-size:13px;
+}
+
+.form-group.full-width{
+    grid-column:1/-1;
+}
+
+.total-box{
+    margin-top:25px;
+    padding:20px;
+    border-radius:12px;
+    background:var(--bg);
+    border:1px solid var(--border);
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    margin:7px 0;
+}
+
+.total-final{
+    border-top:1px solid var(--border);
+    padding-top:12px;
+    margin-top:12px;
+    font-size:22px;
+    font-weight:800;
+    color:var(--primary);
+}
+
+.availability-hint{
+    margin-top:12px;
+    padding:10px;
+    border-radius:8px;
+    font-size:13px;
+}
+
+/* ================= CONFIRMATION ================= */
+
+.confirmation{
+    padding-top:30px;
+}
+
+.confirmation-card{
+    max-width:800px;
+    margin:auto;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:35px;
+    box-shadow:var(--shadow);
+    text-align:center;
+}
+
+.success-icon{
+    width:70px;
+    height:70px;
+    margin:auto auto 15px;
+    border-radius:50%;
+    background:#dcfce7;
+    color:var(--success);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+}
+
+.confirm-details{
+    text-align:left;
+    margin-top:25px;
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.detail-item{
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:9px;
+}
+
+.detail-item small{
+    color:var(--muted);
+    display:block;
+}
+
+/* ================= HISTORY ================= */
+
+.table-wrap{
+    overflow-x:auto;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:13px;
+    border-bottom:1px solid var(--border);
+    text-align:left;
+    font-size:13px;
+}
+
+th{
+    background:var(--bg);
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+}
+
+.badge-pending{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.badge-approved{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.badge-rejected{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.badge-completed{
+    background:#dbeafe;
+    color:#1e40af;
+}
+
+.badge-cancelled{
+    background:#f1f5f9;
+    color:#475569;
+}
+
+.badge-paid{
+    background:#dcfce7;
+    color:#166534;
+}
+
+/* ================= REVIEWS ================= */
+
+.review-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.review-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:22px;
+    border-radius:15px;
+}
+
+.review-card p{
+    color:var(--muted);
+    margin:10px 0;
+}
+
+.review-user{
+    font-weight:700;
+}
+
+/* ================= FAQ ================= */
+
+.faq-list{
+    max-width:850px;
+    margin:auto;
+}
+
+.faq-item{
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin-bottom:10px;
+    overflow:hidden;
+    background:var(--card);
+}
+
+.faq-question{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:var(--text);
+    padding:17px;
+    text-align:left;
+    font-weight:700;
+    display:flex;
+    justify-content:space-between;
+}
+
+.faq-answer{
+    display:none;
+    padding:0 17px 17px;
+    color:var(--muted);
+}
+
+.faq-item.open .faq-answer{
+    display:block;
+}
+
+/* ================= CONTACT ================= */
+
+.contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.contact-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:25px;
+}
+
+.contact-item{
+    margin-bottom:18px;
+}
+
+.contact-item strong{
+    display:block;
+}
+
+/* ================= ADMIN ================= */
+
+.admin-dashboard{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:25px;
+}
+
+.admin-nav{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.admin-tab{
+    padding:10px 15px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:8px;
+}
+
+.admin-tab.active{
+    background:var(--primary);
+    color:white;
+}
+
+.admin-panel{
+    display:none;
+}
+
+.admin-panel.active{
+    display:block;
+}
+
+.admin-kpis{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.kpi{
+    padding:20px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:12px;
+}
+
+.kpi h3{
+    color:var(--primary);
+    font-size:24px;
+}
+
+.kpi p{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.chart{
+    height:250px;
+    display:flex;
+    align-items:flex-end;
+    gap:12px;
+    padding:20px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:12px;
+}
+
+.bar-wrap{
+    flex:1;
+    height:100%;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+}
+
+.bar{
+    width:70%;
+    min-height:4px;
+    background:var(--primary);
+    border-radius:6px 6px 0 0;
+    position:relative;
+}
+
+.bar span{
+    position:absolute;
+    bottom:-22px;
+    width:100%;
+    text-align:center;
+    font-size:10px;
+    color:var(--muted);
+}
+
+.admin-actions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+/* ================= MODALS ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:650px;
+    max-height:90vh;
+    overflow:auto;
+    background:var(--card);
+    color:var(--text);
+    border-radius:18px;
+    padding:25px;
+    position:relative;
+}
+
+.modal-lg{
+    max-width:900px;
+}
+
+.close{
+    position:absolute;
+    right:15px;
+    top:12px;
+    border:0;
+    background:transparent;
+    color:var(--text);
+    font-size:25px;
+}
+
+.modal-title{
+    margin-bottom:20px;
+    padding-right:30px;
+}
+
+/* ================= CALENDAR ================= */
+
+.calendar-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+}
+
+.calendar-day-name{
+    text-align:center;
+    font-size:11px;
+    font-weight:700;
+    color:var(--muted);
+    padding:7px;
+}
+
+.calendar-day{
+    min-height:55px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    padding:7px;
+    background:var(--card);
+    font-size:12px;
+}
+
+.calendar-day.available-day{
+    cursor:pointer;
+}
+
+.calendar-day.available-day:hover{
+    border-color:var(--primary);
+}
+
+.calendar-day.unavailable-day{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.calendar-day.today{
+    outline:2px solid var(--primary);
+}
+
+/* ================= NOTIFICATIONS ================= */
+
+.notification-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.notification{
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:10px;
+}
+
+.notification.unread{
+    border-left:4px solid var(--primary);
+    background:var(--bg);
+}
+
+.notification small{
+    color:var(--muted);
+}
+
+/* ================= PROFILE ================= */
+
+.profile-header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.avatar{
+    width:80px;
+    height:80px;
+    margin:auto;
+    border-radius:50%;
+    background:var(--primary);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    font-weight:800;
+}
+
+/* ================= WHATSAPP ================= */
+
+.whatsapp{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:1500;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#25d366;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    background:#020617;
+    color:#cbd5e1;
+    padding:45px 0 20px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:30px;
+}
+
+footer h3,
+footer h4{
+    color:white;
+    margin-bottom:12px;
+}
+
+footer p,
+footer a{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.copyright{
+    border-top:1px solid #1e293b;
+    margin-top:30px;
+    padding-top:18px;
+    text-align:center;
+    color:#64748b;
+    font-size:12px;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    right:20px;
+    top:90px;
+    z-index:3000;
+    background:var(--secondary);
+    color:var(--bg);
+    padding:13px 18px;
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    display:none;
+    max-width:350px;
+}
+
+.toast.show{
+    display:block;
+}
+
+/* ================= PRINT ================= */
+
+@media print{
+    body *{
+        visibility:hidden;
+    }
+
+    #invoicePrint,
+    #invoicePrint *{
+        visibility:visible;
+    }
+
+    #invoicePrint{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        background:white;
+        color:black;
+    }
+
+    .no-print{
+        display:none!important;
+    }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1000px){
+    .cars-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stats-grid,
+    .admin-kpis{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:760px){
+    .nav-links{
+        display:none;
+        position:absolute;
+        left:0;
+        right:0;
+        top:72px;
+        background:var(--card);
+        border-bottom:1px solid var(--border);
+        padding:15px;
+        flex-direction:column;
+    }
+
+    .nav-links.show{
+        display:flex;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .about-grid,
+    .contact-grid{
+        grid-template-columns:1fr;
+    }
+
+    .filters{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full-width{
+        grid-column:auto;
+    }
+
+    .cars-grid,
+    .review-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stats-grid,
+    .admin-kpis{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .detail-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:480px){
+    .stats-grid,
+    .admin-kpis,
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        min-height:540px;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+    <div class="container nav-inner">
+
+        <a href="#home" class="logo">Drive<span>Easy</span></a>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="#home">Home</a>
+            <a href="#cars">Cars</a>
+            <a href="#booking">Booking</a>
+            <a href="#history">My Bookings</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+            <a href="#admin">Admin</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button class="icon-btn" onclick="toggleNotifications()" title="Notifications">
+                🔔
+                <span class="notification-count hidden" id="notificationCount">0</span>
+            </button>
+
+            <button class="icon-btn" onclick="toggleDark()" title="Dark Mode">🌙</button>
+
+            <button class="btn btn-primary btn-small" id="authButton" onclick="openAuth()">
+                Login
+            </button>
+
+            <button class="icon-btn menu-btn" onclick="toggleMenu()">☰</button>
+        </div>
+    </div>
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Rent Your Perfect Car With Ease</h1>
+            <p>
+                Reliable, affordable and convenient car rental services.
+                Choose your car, select your dates and start your journey.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#cars" class="btn btn-primary">Explore Cars</a>
+                <a href="#booking" class="btn btn-outline" style="color:white;border-color:white">
+                    Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h2 id="availableCount">0</h2>
+                <p>Available Cars</p>
+            </div>
+
+            <div class="stat-card">
+                <h2 id="bookingCount">0</h2>
+                <p>Total Bookings</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>24/7</h2>
+                <p>Customer Support</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>100%</h2>
+                <p>Transparent Pricing</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section id="about">
+    <div class="container">
+        <div class="section-title">
+            <h2>About DriveEasy</h2>
+            <p>Your trusted car rental management platform</p>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-image"></div>
+
+            <div class="about-text">
+                <h2>Simple. Fast. Reliable.</h2>
+
+                <p>
+                    DriveEasy provides a simple online platform for customers
+                    to find, book and manage rental cars.
+                </p>
+
+                <p>
+                    Our management system also allows administrators to manage
+                    vehicles, bookings, customers, maintenance and revenue.
+                </p>
+
+                <ul class="feature-list">
+                    <li>✅ Wide range of vehicles</li>
+                    <li>✅ Easy online booking</li>
+                    <li>✅ Transparent rental pricing</li>
+                    <li>✅ Booking invoice generation</li>
+                    <li>✅ Customer notifications</li>
+                    <li>✅ Professional administration system</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= CARS ================= -->
+
+<section id="cars">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Our Cars</h2>
+            <p>Choose the perfect car for your journey</p>
+        </div>
+
+        <div class="filters">
+            <input
+                class="input"
+                id="carSearch"
+                placeholder="Search car name or model..."
+                oninput="renderCars()"
+            >
+
+            <select id="categoryFilter" onchange="renderCars()">
+                <option value="">All Categories</option>
+                <option>Sedan</option>
+                <option>SUV</option>
+                <option>Hatchback</option>
+                <option>Luxury</option>
+            </select>
+
+            <select id="fuelFilter" onchange="renderCars()">
+                <option value="">All Fuel Types</option>
+                <option>Petrol</option>
+                <option>Diesel</option>
+                <option>Electric</option>
+                <option>Hybrid</option>
+            </select>
+
+            <select id="priceFilter" onchange="renderCars()">
+                <option value="">Any Price</option>
+                <option value="1000">Under ₹1,000</option>
+                <option value="1500">Under ₹1,500</option>
+                <option value="2000">Under ₹2,000</option>
+                <option value="3000">Under ₹3,000</option>
+            </select>
+        </div>
+
+        <div class="cars-grid" id="carsGrid"></div>
+    </div>
+</section>
+
+
+<!-- ================= BOOKING ================= -->
+
+<section id="booking">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Book Your Car</h2>
+            <p>Select your car, dates and locations</p>
+        </div>
+
+        <div class="booking-box">
+
+            <form id="bookingForm" onsubmit="submitBooking(event)">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input class="input" id="bookingName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input class="input" id="bookingPhone" type="tel" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input class="input" id="bookingEmail" type="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Car</label>
+                        <select id="bookingCar" required onchange="calculateTotal()">
+                            <option value="">Select a car</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pickup Date</label>
+                        <input class="input" id="pickupDate" type="date" required
+                               onchange="calculateTotal();checkBookingAvailability()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Return Date</label>
+                        <input class="input" id="returnDate" type="date" required
+                               onchange="calculateTotal();checkBookingAvailability()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pickup Location</label>
+                        <select id="pickupLocation" required>
+                            <option value="">Select pickup location</option>
+                            <option>Bengaluru Airport</option>
+                            <option>MG Road</option>
+                            <option>Indiranagar</option>
+                            <option>Koramangala</option>
+                            <option>Whitefield</option>
+                            <option>Electronic City</option>
+                            <option>Yeshwanthpur</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Return Location</label>
+                        <select id="returnLocation" required>
+                            <option value="">Select return location</option>
+                            <option>Bengaluru Airport</option>
+                            <option>MG Road</option>
+                            <option>Indiranagar</option>
+                            <option>Koramangala</option>
+                            <option>Whitefield</option>
+                            <option>Electronic City</option>
+                            <option>Yeshwanthpur</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Coupon Code</label>
+                        <input class="input" id="coupon" placeholder="Try DRIVE10">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Special Notes</label>
+                        <input class="input" id="bookingNotes"
+                               placeholder="Any special request?">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <div id="availabilityHint"></div>
+                    </div>
+
+                </div>
+
+                <div class="total-box">
+
+                    <div class="total-row">
+                        <span>Rental</span>
+                        <strong id="subtotal">₹0</strong>
+                    </div>
+
+                    <div class="total-row">
+                        <span>Discount</span>
+                        <strong id="discount">₹0</strong>
+                    </div>
+
+                    <div class="total-row">
+                        <span>Tax (5%)</span>
+                        <strong id="tax">₹0</strong>
+                    </div>
+
+                    <div class="total-row total-final">
+                        <span>Total</span>
+                        <strong id="grandTotal">₹0</strong>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <button class="btn btn-primary full" type="submit">
+                    Continue to Payment
+                </button>
+
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= CONFIRMATION ================= -->
+
+<section id="confirmationSection" class="confirmation hidden">
+    <div class="container">
+
+        <div class="confirmation-card">
+
+            <div class="success-icon">✓</div>
+
+            <h2>Booking Created Successfully!</h2>
+
+            <p style="color:var(--muted)">
+                Your booking has been registered with DriveEasy.
+            </p>
+
+            <div class="confirm-details" id="confirmationDetails"></div>
+
+            <br>
+
+            <div class="hero-buttons" style="justify-content:center">
+                <button class="btn btn-primary" onclick="printInvoice()">
+                    🧾 Print Invoice
+                </button>
+
+                <button class="btn btn-outline" onclick="emailConfirmation()">
+                    ✉ Email Confirmation
+                </button>
+
+                <button class="btn btn-secondary" onclick="goToBookings()">
+                    My Bookings
+                </button>
+            </div>
+
+            <p style="font-size:12px;color:var(--muted);margin-top:15px">
+                Email confirmation opens your email application.
+                Automatic email requires EmailJS or a backend email service.
+            </p>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= HISTORY ================= -->
+
+<section id="history">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>My Bookings</h2>
+            <p>View and manage your reservations</p>
+        </div>
+
+        <div id="bookingHistory"></div>
+
+    </div>
+</section>
+
+
+<!-- ================= REVIEWS ================= -->
+
+<section id="reviews">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Customer Reviews</h2>
+            <p>What our customers say</p>
+        </div>
+
+        <div style="max-width:750px;margin:0 auto 35px">
+            <div class="booking-box">
+
+                <h3>Write a Review</h3>
+                <br>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Car</label>
+                        <select id="reviewCar"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <select id="reviewRating">
+                            <option value="5">★★★★★ - Excellent</option>
+                            <option value="4">★★★★☆ - Very Good</option>
+                            <option value="3">★★★☆☆ - Good</option>
+                            <option value="2">★★☆☆☆ - Average</option>
+                            <option value="1">★☆☆☆☆ - Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Review</label>
+                        <textarea id="reviewComment" rows="4"
+                                  placeholder="Share your experience..."></textarea>
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary" onclick="submitReview()">
+                    Submit Review
+                </button>
+
+            </div>
+        </div>
+
+        <div class="review-grid" id="reviewsGrid"></div>
+
+    </div>
+</section>
+
+
+<!-- ================= FAQ ================= -->
+
+<section id="faq">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+            <p>Find answers to common questions</p>
+        </div>
+
+        <div class="faq-list">
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    How do I book a car?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    Create an account, select a car, choose pickup and return
+                    dates and locations, and complete the payment process.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    Can I cancel my booking?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes. You can cancel pending or approved bookings from
+                    your My Bookings section.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    How is car availability checked?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    DriveEasy checks existing booking date ranges before
+                    accepting a new reservation.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    Do you provide invoices?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes. Every booking receives a unique booking ID and
+                    printable invoice.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    Can I pay at pickup?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes. Pay-at-pickup is available as a demonstration option.
+                    A production website can connect Razorpay, Stripe or another
+                    payment gateway.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= CONTACT ================= -->
+
+<section id="contact">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Contact Us</h2>
+            <p>We are here to help you</p>
+        </div>
+
+        <div class="contact-grid">
+
+            <div class="contact-card">
+
+                <h2>Get in Touch</h2>
+                <br>
+
+                <div class="contact-item">
+                    <strong>📍 Address</strong>
+                    Bengaluru, Karnataka, India
+                </div>
+
+                <div class="contact-item">
+                    <strong>📞 Phone</strong>
+                    +91 98765 43210
+                </div>
+
+                <div class="contact-item">
+                    <strong>✉ Email</strong>
+                    support@driveeasy.example
+                </div>
+
+                <div class="contact-item">
+                    <strong>🕐 Support</strong>
+                    24/7 Customer Support
+                </div>
+
+            </div>
+
+            <div class="contact-card">
+
+                <h2>Send Message</h2>
+                <br>
+
+                <input class="input" id="contactName"
+                       placeholder="Your Name">
+
+                <br><br>
+
+                <input class="input" id="contactEmail"
+                       placeholder="Your Email">
+
+                <br><br>
+
+                <textarea class="input" id="contactMessage"
+                          rows="5"
+                          placeholder="Your message"></textarea>
+
+                <br><br>
+
+                <button class="btn btn-primary" onclick="sendMessage()">
+                    Send Message
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= ADMIN ================= -->
+
+<section id="admin">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Admin Management</h2>
+            <p>Manage cars, customers, bookings and revenue</p>
+        </div>
+
+        <div id="adminLoginArea">
+            <div class="booking-box" style="max-width:500px;margin:auto;text-align:center">
+                <h3>Admin Login Required</h3>
+                <p style="color:var(--muted);margin:10px 0 20px">
+                    Login to access the management dashboard.
+                </p>
+
+                <button class="btn btn-primary" onclick="openAdminLogin()">
+                    Admin Login
+                </button>
+            </div>
+        </div>
+
+        <div id="adminDashboard" class="hidden">
+            <div class="admin-dashboard">
+
+                <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                    <h2>Admin Dashboard</h2>
+                    <div class="admin-actions">
+                        <button class="btn btn-outline btn-small"
+                                onclick="exportData()">
+                            Export Data
+                        </button>
+
+                        <button class="btn btn-danger btn-small"
+                                onclick="logoutAdmin()">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="admin-nav">
+                    <button class="admin-tab active"
+                            onclick="openAdminTab('dashboardPanel',this)">
+                        Dashboard
+                    </button>
+
+                    <button class="admin-tab"
+                            onclick="openAdminTab('bookingsPanel',this)">
+                        Bookings
+                    </button>
+
+                    <button class="admin-tab"
+                            onclick="openAdminTab('carsPanel',this)">
+                        Cars
+                    </button>
+
+                    <button class="admin-tab"
+                            onclick="openAdminTab('maintenancePanel',this)">
+                        Maintenance
+                    </button>
+
+                    <button class="admin-tab"
+                            onclick="openAdminTab('customersPanel',this)">
+                        Customers
+                    </button>
+
+                    <button class="admin-tab"
+                            onclick="openAdminTab('reviewsPanel',this)">
+                        Reviews
+                    </button>
+                </div>
+
+
+                <!-- ADMIN DASHBOARD PANEL -->
+
+                <div id="dashboardPanel" class="admin-panel active">
+
+                    <div class="admin-kpis">
+
+                        <div class="kpi">
+                            <h3 id="adminCars">0</h3>
+                            <p>Total Cars</p>
+                        </div>
+
+                        <div class="kpi">
+                            <h3 id="adminBookings">0</h3>
+                            <p>Total Bookings</p>
+                        </div>
+
+                        <div class="kpi">
+                            <h3 id="adminRevenue">₹0</h3>
+                            <p>Revenue</p>
+                        </div>
+
+                        <div class="kpi">
+                            <h3 id="adminAverage">₹0</h3>
+                            <p>Average Booking</p>
+                        </div>
+
+                    </div>
+
+                    <h3>Revenue Analytics</h3>
+                    <br>
+
+                    <div class="chart" id="revenueChart"></div>
+
+                </div>
+
+
+                <!-- BOOKINGS PANEL -->
+
+                <div id="bookingsPanel" class="admin-panel">
+
+                    <h3>Booking Management</h3>
+                    <br>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer</th>
+                                    <th>Car</th>
+                                    <th>Dates</th>
+                                    <th>Total</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="adminBookingsTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+                <!-- CARS PANEL -->
+
+                <div id="carsPanel" class="admin-panel">
+
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <h3>Car Management</h3>
+
+                        <button class="btn btn-primary btn-small"
+                                onclick="openCarForm()">
+                            + Add Car
+                        </button>
+                    </div>
+
+                    <br>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Car</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Fuel</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="adminCarsTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+                <!-- MAINTENANCE PANEL -->
+
+                <div id="maintenancePanel" class="admin-panel">
+
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <h3>Maintenance Records</h3>
+
+                        <button class="btn btn-primary btn-small"
+                                onclick="openMaintenanceForm()">
+                            + Add Record
+                        </button>
+                    </div>
+
+                    <br>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Car</th>
+                                    <th>Service Date</th>
+                                    <th>Next Service</th>
+                                    <th>Cost</th>
+                                    <th>Notes</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="maintenanceTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+                <!-- CUSTOMERS PANEL -->
+
+                <div id="customersPanel" class="admin-panel">
+
+                    <h3>Customer Management</h3>
+                    <br>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Bookings</th>
+                                    <th>Revenue</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="customersTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+                <!-- REVIEWS PANEL -->
+
+                <div id="reviewsPanel" class="admin-panel">
+
+                    <h3>Customer Reviews</h3>
+                    <br>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Car</th>
+                                    <th>Rating</th>
+                                    <th>Review</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="adminReviewsTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+                <h3>DriveEasy</h3>
+                <p>
+                    Professional car rental management system for customers
+                    and rental administrators.
+                </p>
+            </div>
+
+            <div>
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a><br>
+                <a href="#cars">Cars</a><br>
+                <a href="#booking">Booking</a><br>
+                <a href="#history">Bookings</a>
+            </div>
+
+            <div>
+                <h4>Services</h4>
+                <a href="#cars">Car Rental</a><br>
+                <a href="#reviews">Reviews</a><br>
+                <a href="#faq">FAQ</a><br>
+                <a href="#contact">Support</a>
+            </div>
+
+            <div>
+                <h4>Contact</h4>
+                <p>+91 98765 43210</p>
+                <p>support@driveeasy.example</p>
+                <p>Bengaluru, India</p>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 DriveEasy. All Rights Reserved.
+        </div>
+
+    </div>
+</footer>
+
+
+<!-- ================= WHATSAPP ================= -->
+
+<a
+    class="whatsapp"
+    href="https://wa.me/919876543210?text=Hello%20DriveEasy%2C%20I%20want%20to%20know%20about%20car%20rental."
+    target="_blank"
+    title="Chat on WhatsApp">
+    ☎
+</a>
+
+
+<!-- ================= TOAST ================= -->
+
+<div class="toast" id="toast"></div>
+
+
+<!-- ================= AUTH MODAL ================= -->
+
+<div class="modal" id="authModal">
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('authModal')">×</button>
+
+        <h2 class="modal-title" id="authTitle">Customer Login</h2>
+
+        <div id="loginForm">
+
+            <div class="form-group">
+                <label>Email</label>
+                <input class="input" id="loginEmail" type="email">
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input class="input" id="loginPassword" type="password">
+            </div>
+
+            <br>
+
+            <button class="btn btn-primary full" onclick="loginCustomer()">
+                Login
+            </button>
+
+            <br><br>
+
+            <p style="text-align:center;color:var(--muted)">
+                Don't have an account?
+                <a href="#" onclick="showSignup();return false;"
+                   style="color:var(--primary)">
+                    Sign up
+                </a>
+            </p>
+
+        </div>
+
+
+        <div id="signupForm" class="hidden">
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input class="input" id="signupName">
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input class="input" id="signupEmail" type="email">
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input class="input" id="signupPhone">
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input class="input" id="signupPassword" type="password">
+            </div>
+
+            <br>
+
+            <button class="btn btn-primary full" onclick="signupCustomer()">
+                Create Account
+            </button>
+
+            <br><br>
+
+            <p style="text-align:center;color:var(--muted)">
+                Already have an account?
+                <a href="#" onclick="showLogin();return false;"
+                   style="color:var(--primary)">
+                    Login
+                </a>
+            </p>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= PROFILE MODAL ================= -->
+
+<div class="modal" id="profileModal">
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('profileModal')">×</button>
+
+        <div class="profile-header">
+            <div class="avatar" id="profileAvatar">U</div>
+            <h2 id="profileName">User</h2>
+            <p id="profileEmail" style="color:var(--muted)"></p>
+        </div>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Name</label>
+                <input class="input" id="profileNameInput">
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input class="input" id="profilePhoneInput">
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary" onclick="updateProfile()">
+            Update Profile
+        </button>
+
+        <button class="btn btn-danger" onclick="logoutCustomer()">
+            Logout
+        </button>
+
+    </div>
+</div>
+
+
+<!-- ================= NOTIFICATION MODAL ================= -->
+
+<div class="modal" id="notificationModal">
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('notificationModal')">×</button>
+
+        <h2 class="modal-title">Notifications</h2>
+
+        <button class="btn btn-outline btn-small"
+                onclick="markNotificationsRead()">
+            Mark All Read
+        </button>
+
+        <br><br>
+
+        <div class="notification-list" id="notificationList"></div>
+
+    </div>
+</div>
+
+
+<!-- ================= CAR DETAILS MODAL ================= -->
+
+<div class="modal" id="carDetailsModal">
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('carDetailsModal')">×</button>
+
+        <div id="carDetails"></div>
+
+    </div>
+</div>
+
+
+<!-- ================= AVAILABILITY MODAL ================= -->
+
+<div class="modal" id="availabilityModal">
+    <div class="modal-box modal-lg">
+
+        <button class="close" onclick="closeModal('availabilityModal')">×</button>
+
+        <h2 id="calendarTitle" class="modal-title">
+            Car Availability
+        </h2>
+
+        <div class="calendar-header">
+
+            <button class="btn btn-outline btn-small"
+                    onclick="changeCalendarMonth(-1)">
+                ← Previous
+            </button>
+
+            <strong id="calendarMonth"></strong>
+
+            <button class="btn btn-outline btn-small"
+                    onclick="changeCalendarMonth(1)">
+                Next →
+            </button>
+
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+
+        <br>
+
+        <p style="font-size:12px;color:var(--muted)">
+            🟢 Available &nbsp;&nbsp;
+            🔴 Booked / Maintenance
+        </p>
+
+    </div>
+</div>
+
+
+<!-- ================= PAYMENT MODAL ================= -->
+
+<div class="modal" id="paymentModal">
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('paymentModal')">×</button>
+
+        <h2 class="modal-title">Payment</h2>
+
+        <div id="paymentBookingSummary"></div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Payment Method</label>
+
+            <select id="paymentMethod" onchange="renderPaymentFields()">
+                <option value="UPI">UPI</option>
+                <option value="CARD">Debit / Credit Card</option>
+                <option value="PAY_AT_PICKUP">Pay at Pickup</option>
+            </select>
+        </div>
+
+        <br>
+
+        <div id="paymentFields"></div>
+
+        <br>
+
+        <button class="btn btn-success full"
+                onclick="processPayment()">
+            Complete Demo Payment
+        </button>
+
+        <p style="font-size:11px;color:var(--muted);margin-top:10px">
+            Demo payment only. For production, connect Razorpay, Stripe,
+            PayU or another secure payment gateway with a backend.
+        </p>
+
+    </div>
+</div>
+
+
+<!-- ================= INVOICE MODAL ================= -->
+
+<div class="modal" id="invoiceModal">
+    <div class="modal-box modal-lg">
+
+        <button class="close no-print" onclick="closeModal('invoiceModal')">×</button>
+
+        <div id="invoicePrint"></div>
+
+        <br>
+
+        <div class="no-print">
+            <button class="btn btn-primary" onclick="window.print()">
+                Print Invoice
+            </button>
+
+            <button class="btn btn-outline" onclick="emailConfirmation()">
+                Email Invoice
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= ADMIN LOGIN ================= -->
+
+<div class="modal" id="adminLoginModal">
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('adminLoginModal')">×</button>
+
+        <h2 class="modal-title">Admin Login</h2>
+
+        <div class="form-group">
+            <label>Username</label>
+            <input class="input" id="adminUsername">
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input class="input" id="adminPassword" type="password">
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary full" onclick="adminLogin()">
+            Login
+        </button>
+
+        <p style="font-size:12px;color:var(--muted);margin-top:15px">
+            Demo credentials: admin / admin123
+        </p>
+
+    </div>
+</div>
+
+
+<!-- ================= CAR FORM ================= -->
+
+<div class="modal" id="carFormModal">
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('carFormModal')">×</button>
+
+        <h2 class="modal-title" id="carFormTitle">Add Car</h2>
+
+        <input type="hidden" id="editCarId">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Car Name</label>
+                <input class="input" id="carName">
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select id="carCategory">
+                    <option>Sedan</option>
+                    <option>SUV</option>
+                    <option>Hatchback</option>
+                    <option>Luxury</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Price Per Day</label>
+                <input class="input" id="carPrice" type="number">
+            </div>
+
+            <div class="form-group">
+                <label>Fuel</label>
+                <select id="carFuel">
+                    <option>Petrol</option>
+                    <option>Diesel</option>
+                    <option>Electric</option>
+                    <option>Hybrid</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Seats</label>
+                <input class="input" id="carSeats" type="number">
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select id="carStatus">
+                    <option>Available</option>
+                    <option>Booked</option>
+                    <option>Maintenance</option>
+                </select>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Image URL</label>
+                <input class="input" id="carImage">
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary full" onclick="saveCar()">
+            Save Car
+        </button>
+
+    </div>
+</div>
+
+
+<!-- ================= MAINTENANCE FORM ================= -->
+
+<div class="modal" id="maintenanceModal">
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('maintenanceModal')">×</button>
+
+        <h2 class="modal-title">Add Maintenance Record</h2>
+
+        <div class="form-group">
+            <label>Car</label>
+            <select id="maintenanceCar"></select>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Service Date</label>
+            <input class="input" id="serviceDate" type="date">
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Next Service</label>
+            <input class="input" id="nextService" type="date">
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Cost</label>
+            <input class="input" id="maintenanceCost" type="number">
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Notes</label>
+            <textarea class="input" id="maintenanceNotes" rows="3"></textarea>
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary full" onclick="saveMaintenance()">
+            Save Maintenance Record
+        </button>
+
+    </div>
+</div>
+
+
+<script>
+
+/* ============================================================
+   DRIVE EASY - COMPLETE CAR RENTAL MANAGEMENT SYSTEM
+   ============================================================ */
+
+
+/* ================= DATA ================= */
+
+const defaultCars = [
+
+{
+    id:1,
+    name:"Toyota Camry",
+    category:"Sedan",
+    price:1200,
+    fuel:"Petrol",
+    seats:5,
+    status:"Available",
+    image:"https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=900&q=80"
+},
+
+{
+    id:2,
+    name:"Hyundai Creta",
+    category:"SUV",
+    price:1500,
+    fuel:"Diesel",
+    seats:5,
+    status:"Available",
+    image:"https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=900&q=80"
+},
+
+{
+    id:3,
+    name:"Maruti Swift",
+    category:"Hatchback",
+    price:850,
+    fuel:"Petrol",
+    seats:5,
+    status:"Available",
+    image:"https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=900&q=80"
+},
+
+{
+    id:4,
+    name:"Mahindra XUV700",
+    category:"SUV",
+    price:1800,
+    fuel:"Diesel",
+    seats:7,
+    status:"Booked",
+    image:"https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=900&q=80"
+},
+
+{
+    id:5,
+    name:"Honda City",
+    category:"Sedan",
+    price:1100,
+    fuel:"Petrol",
+    seats:5,
+    status:"Available",
+    image:"https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=80"
+},
+
+{
+    id:6,
+    name:"BMW 3 Series",
+    category:"Luxury",
+    price:2500,
+    fuel:"Petrol",
+    seats:5,
+    status:"Available",
+    image:"https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=900&q=80"
+},
+
+{
+    id:7,
+    name:"Tata Nexon",
+    category:"SUV",
+    price:1300,
+    fuel:"Petrol",
+    seats:5,
+    status:"Available",
+    image:"https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=900&q=80"
+},
+
+{
+    id:8,
+    name:"Hyundai i20",
+    category:"Hatchback",
+    price:900,
+    fuel:"Petrol",
+    seats:5,
+    status:"Available",
+    image:"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80"
+},
+
+{
+    id:9,
+    name:"Mercedes C-Class",
+    category:"Luxury",
+    price:3000,
+    fuel:"Petrol",
+    seats:5,
+    status:"Booked",
+    image:"https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=900&q=80"
+}
+
+];
+
+
+const defaultReviews = [
+
+{
+    id:1,
+    user:"Rahul",
+    car:"Toyota Camry",
+    rating:5,
+    comment:"Excellent car and very smooth booking experience.",
+    date:"2026-08-20"
+},
+
+{
+    id:2,
+    user:"Priya",
+    car:"Hyundai Creta",
+    rating:4,
+    comment:"Clean car and good service.",
+    date:"2026-08-25"
+},
+
+{
+    id:3,
+    user:"Arjun",
+    car:"BMW 3 Series",
+    rating:5,
+    comment:"Amazing luxury car experience.",
+    date:"2026-08-29"
+}
+
+];
+
+
+const defaultMaintenance = [];
+
+
+/* ================= STORAGE ================= */
+
+const STORAGE = {
+
+    cars:"driveeasyCars",
+    bookings:"driveeasyBookings",
+    users:"driveeasyUsers",
+    currentUser:"driveeasyCurrentUser",
+    notifications:"driveeasyNotifications",
+    reviews:"driveeasyReviews",
+    maintenance:"driveeasyMaintenance",
+    messages:"driveeasyMessages"
+
+};
+
+
+function load(key, fallback){
+
+    try{
+
+        const data = localStorage.getItem(key);
+
+        return data ? JSON.parse(data) : fallback;
+
+    }catch(error){
+
+        return fallback;
+
+    }
+
+}
+
+
+function save(key,data){
+
+    localStorage.setItem(key,JSON.stringify(data));
+
+}
+
+
+let cars = load(STORAGE.cars,defaultCars);
+
+let bookings = load(STORAGE.bookings,[]);
+
+let users = load(STORAGE.users,[]);
+
+let currentUser = load(STORAGE.currentUser,null);
+
+let notifications = load(STORAGE.notifications,[]);
+
+let reviews = load(STORAGE.reviews,defaultReviews);
+
+let maintenanceRecords = load(STORAGE.maintenance,defaultMaintenance);
+
+
+/* ================= UTILITIES ================= */
+
+function money(value){
+
+    return "₹" + Number(value || 0).toLocaleString("en-IN");
+
+}
+
+
+function toast(message){
+
+    const el = document.getElementById("toast");
+
+    el.textContent = message;
+
+    el.classList.add("show");
+
+    setTimeout(()=>{
+        el.classList.remove("show");
+    },3000);
+
+}
+
+
+function closeModal(id){
+
+    document.getElementById(id).classList.remove("show");
+
+}
+
+
+function openModal(id){
+
+    document.getElementById(id).classList.add("show");
+
+}
+
+
+function toggleMenu(){
+
+    document.getElementById("navLinks").classList.toggle("show");
+
+}
+
+
+function toggleDark(){
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "driveeasyDark",
+        document.body.classList.contains("dark")
+    );
+
+}
+
+
+if(localStorage.getItem("driveeasyDark")==="true"){
+    document.body.classList.add("dark");
+}
+
+
+function generateId(){
+
+    return "DE-" +
+        new Date().toISOString().slice(0,10).replaceAll("-","") +
+        "-" +
+        Math.floor(1000 + Math.random()*9000);
+
+}
+
+
+function dateDifference(start,end){
+
+    const s = new Date(start);
+    const e = new Date(end);
+
+    return Math.max(
+        1,
+        Math.ceil((e-s)/(1000*60*60*24))
+    );
+
+}
+
+
+function escapeHTML(str){
+
+    return String(str || "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* ================= AUTH ================= */
+
+function openAuth(){
+
+    if(currentUser){
+
+        openProfile();
+
+    }else{
+
+        showLogin();
+
+        openModal("authModal");
+
+    }
+
+}
+
+
+function showLogin(){
+
+    document.getElementById("loginForm").classList.remove("hidden");
+
+    document.getElementById("signupForm").classList.add("hidden");
+
+    document.getElementById("authTitle").textContent="Customer Login";
+
+}
+
+
+function showSignup(){
+
+    document.getElementById("loginForm").classList.add("hidden");
+
+    document.getElementById("signupForm").classList.remove("hidden");
+
+    document.getElementById("authTitle").textContent="Create Customer Account";
+
+}
+
+
+function signupCustomer(){
+
+    const name=document.getElementById("signupName").value.trim();
+
+    const email=document.getElementById("signupEmail").value.trim().toLowerCase();
+
+    const phone=document.getElementById("signupPhone").value.trim();
+
+    const password=document.getElementById("signupPassword").value;
+
+    if(!name || !email || !phone || !password){
+
+        toast("Please fill all fields.");
+
+        return;
+
+    }
+
+
+    if(users.some(u=>u.email===email)){
+
+        toast("Account already exists. Please login.");
+
+        return;
+
+    }
+
+
+    const user={
+
+        id:"U-"+Date.now(),
+
+        name,
+
+        email,
+
+        phone,
+
+        password
+
+    };
+
+
+    users.push(user);
+
+    save(STORAGE.users,users);
+
+    currentUser=user;
+
+    save(STORAGE.currentUser,currentUser);
+
+    updateAuthUI();
+
+    prefillBooking();
+
+    closeModal("authModal");
+
+    toast("Account created successfully.");
+
+}
+
+
+function loginCustomer(){
+
+    const email=document.getElementById("loginEmail").value.trim().toLowerCase();
+
+    const password=document.getElementById("loginPassword").value;
+
+
+    const user=users.find(
+        u=>u.email===email && u.password===password
+    );
+
+
+    if(!user){
+
+        toast("Invalid email or password.");
+
+        return;
+
+    }
+
+
+    currentUser=user;
+
+    save(STORAGE.currentUser,currentUser);
+
+    updateAuthUI();
+
+    prefillBooking();
+
+    closeModal("authModal");
+
+    toast("Login successful.");
+
+}
+
+
+function logoutCustomer(){
+
+    currentUser=null;
+
+    localStorage.removeItem(STORAGE.currentUser);
+
+    updateAuthUI();
+
+    closeModal("profileModal");
+
+    toast("Logged out successfully.");
+
+}
+
+
+function updateAuthUI(){
+
+    const button=document.getElementById("authButton");
+
+    if(currentUser){
+
+        button.textContent=currentUser.name.split(" ")[0];
+
+        button.title="Open Profile";
+
+    }else{
+
+        button.textContent="Login";
+
+        button.title="Login";
+
+    }
+
+}
+
+
+function prefillBooking(){
+
+    if(!currentUser) return;
+
+    document.getElementById("bookingName").value=currentUser.name || "";
+
+    document.getElementById("bookingPhone").value=currentUser.phone || "";
+
+    document.getElementById("bookingEmail").value=currentUser.email || "";
+
+}
+
+
+function openProfile(){
+
+    if(!currentUser){
+
+        openAuth();
+
+        return;
+
+    }
+
+
+    document.getElementById("profileName").textContent=currentUser.name;
+
+    document.getElementById("profileEmail").textContent=currentUser.email;
+
+    document.getElementById("profileAvatar").textContent=
+        currentUser.name.charAt(0).toUpperCase();
+
+    document.getElementById("profileNameInput").value=currentUser.name;
+
+    document.getElementById("profilePhoneInput").value=currentUser.phone || "";
+
+    openModal("profileModal");
+
+}
+
+
+function updateProfile(){
+
+    if(!currentUser) return;
+
+
+    const name=document.getElementById("profileNameInput").value.trim();
+
+    const phone=document.getElementById("profilePhoneInput").value.trim();
+
+
+    if(!name || !phone){
+
+        toast("Please enter name and phone.");
+
+        return;
+
+    }
+
+
+    const index=users.findIndex(u=>u.id===currentUser.id);
+
+    if(index>=0){
+
+        users[index].name=name;
+
+        users[index].phone=phone;
+
+        currentUser=users[index];
+
+        save(STORAGE.users,users);
+
+        save(STORAGE.currentUser,currentUser);
+
+        updateAuthUI();
+
+        prefillBooking();
+
+        openProfile();
+
+        toast("Profile updated.");
+
+    }
+
+}
+
+
+/* ================= CARS ================= */
+
+function getCarRating(carName){
+
+    const list=reviews.filter(r=>r.car===carName);
+
+    if(!list.length) return 0;
+
+    return list.reduce((sum,r)=>sum+Number(r.rating),0)/list.length;
+
+}
+
+
+function stars(rating){
+
+    const rounded=Math.round(rating);
+
+    return "★".repeat(rounded)+"☆".repeat(5-rounded);
+
+}
+
+
+function renderCars(){
+
+    const grid=document.getElementById("carsGrid");
+
+    const search=document.getElementById("carSearch").value.toLowerCase();
+
+    const category=document.getElementById("categoryFilter").value;
+
+    const fuel=document.getElementById("fuelFilter").value;
+
+    const maxPrice=document.getElementById("priceFilter").value;
+
+
+    const filtered=cars.filter(car=>{
+
+        const matchesSearch=
+            car.name.toLowerCase().includes(search);
+
+        const matchesCategory=
+            !category || car.category===category;
+
+        const matchesFuel=
+            !fuel || car.fuel===fuel;
+
+        const matchesPrice=
+            !maxPrice || car.price<=Number(maxPrice);
+
+
+        return matchesSearch &&
+               matchesCategory &&
+               matchesFuel &&
+               matchesPrice;
+
+    });
+
+
+    grid.innerHTML="";
+
+
+    if(!filtered.length){
+
+        grid.innerHTML=`
+            <div style="grid-column:1/-1;text-align:center;padding:40px">
+                <h3>No cars found</h3>
+                <p style="color:var(--muted)">
+                    Try changing your search or filters.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    filtered.forEach(car=>{
+
+        const rating=getCarRating(car.name);
+
+        const statusClass=
+            car.status==="Available"
+            ? "available"
+            : car.status==="Maintenance"
+            ? "maintenance"
+            : "booked";
+
+
+        grid.innerHTML+=`
+
+        <div class="car-card">
+
+            <div class="car-image">
+
+                <img src="${car.image}" alt="${escapeHTML(car.name)}">
+
+                <span class="car-status ${statusClass}">
+                    ${car.status}
+                </span>
+
+            </div>
+
+            <div class="car-body">
+
+                <h3>${escapeHTML(car.name)}</h3>
+
+                <div class="rating">
+                    ${stars(rating)}
+                    ${rating ? rating.toFixed(1) : "No ratings"}
+                </div>
+
+                <div class="car-price">
+                    ${money(car.price)}
+                    <small style="font-size:11px;color:var(--muted)">
+                        / day
+                    </small>
+                </div>
+
+                <div class="car-info">
+
+                    <div>⛽ ${car.fuel}</div>
+                    <div>👤 ${car.seats} Seats</div>
+                    <div>🚘 ${car.category}</div>
+
+                </div>
+
+                <div class="car-buttons">
+
+                    <button class="btn btn-outline btn-small"
+                            onclick="showCar(${car.id})">
+                        Details
+                    </button>
+
+                    <button class="btn btn-outline btn-small"
+                            onclick="showAvailability(${car.id})">
+                        Calendar
+                    </button>
+
+                    <button class="btn btn-primary btn-small"
+                            onclick="selectCar(${car.id})"
+                            ${car.status!=="Available" ? "disabled" : ""}>
+                        Book
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+function renderBookingOptions(){
+
+    const select=document.getElementById("bookingCar");
+
+    const reviewSelect=document.getElementById("reviewCar");
+
+    select.innerHTML='<option value="">Select a car</option>';
+
+    reviewSelect.innerHTML='<option value="">Select a car</option>';
+
+
+    cars.forEach(car=>{
+
+        const option=document.createElement("option");
+
+        option.value=car.id;
+
+        option.textContent=
+            `${car.name} - ${money(car.price)}/day`;
+
+        select.appendChild(option);
+
+
+        const reviewOption=document.createElement("option");
+
+        reviewOption.value=car.name;
+
+        reviewOption.textContent=car.name;
+
+        reviewSelect.appendChild(reviewOption);
+
+    });
+
+}
+
+
+function selectCar(id){
+
+    document.getElementById("bookingCar").value=id;
+
+    calculateTotal();
+
+    checkBookingAvailability();
+
+    document.getElementById("booking").scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+function showCar(id){
+
+    const car=cars.find(c=>c.id===id);
+
+    if(!car) return;
+
+
+    const rating=getCarRating(car.name);
+
+    document.getElementById("carDetails").innerHTML=`
+
+        <img src="${car.image}"
+             style="width:100%;height:300px;object-fit:cover;border-radius:12px">
+
+        <br><br>
+
+        <h2>${escapeHTML(car.name)}</h2>
+
+        <div class="rating">
+            ${stars(rating)}
+            ${rating ? rating.toFixed(1) : "No ratings"}
+        </div>
+
+        <h2 style="color:var(--primary);margin:10px 0">
+            ${money(car.price)}
+            <small style="font-size:12px;color:var(--muted)">
+                / day
+            </small>
+        </h2>
+
+        <div class="car-info">
+
+            <div>Category<br><strong>${car.category}</strong></div>
+            <div>Fuel<br><strong>${car.fuel}</strong></div>
+            <div>Seats<br><strong>${car.seats}</strong></div>
+
+        </div>
+
+        <p style="color:var(--muted)">
+            Availability status:
+            <strong>${car.status}</strong>
+        </p>
+
+        <br>
+
+        <button class="btn btn-primary"
+                onclick="closeModal('carDetailsModal');selectCar(${car.id})">
+            Book This Car
+        </button>
+
+    `;
+
+
+    openModal("carDetailsModal");
+
+}
+
+
+/* ================= BOOKING AVAILABILITY ================= */
+
+function datesOverlap(start1,end1,start2,end2){
+
+    return new Date(start1) < new Date(end2) &&
+           new Date(end1) > new Date(start2);
+
+}
+
+
+function isCarAvailable(carId,startDate,endDate){
+
+    const car=cars.find(c=>c.id==carId);
+
+    if(!car) return false;
+
+    if(car.status==="Maintenance") return false;
+
+    if(car.status==="Booked") return false;
+
+
+    return !bookings.some(b=>{
+
+        if(Number(b.carId)!==Number(carId)) return false;
+
+        if(
+            b.status==="Rejected" ||
+            b.status==="Cancelled"
+        ) return false;
+
+
+        return datesOverlap(
+            startDate,
+            endDate,
+            b.pickupDate,
+            b.returnDate
+        );
+
+    });
+
+}
+
+
+function checkBookingAvailability(){
+
+    const carId=document.getElementById("bookingCar").value;
+
+    const start=document.getElementById("pickupDate").value;
+
+    const end=document.getElementById("returnDate").value;
+
+    const hint=document.getElementById("availabilityHint");
+
+
+    if(!carId || !start || !end){
+
+        hint.innerHTML="";
+
+        return;
+
+    }
+
+
+    if(new Date(end)<=new Date(start)){
+
+        hint.innerHTML=`
+            <div style="background:#fee2e2;color:#991b1b;padding:10px;border-radius:8px">
+                Return date must be after pickup date.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const available=isCarAvailable(
+        carId,
+        start,
+        end
+    );
+
+
+    if(available){
+
+        hint.innerHTML=`
+            <div style="background:#dcfce7;color:#166534;padding:10px;border-radius:8px">
+                ✓ Car is available for the selected dates.
+            </div>
+        `;
+
+    }else{
+
+        hint.innerHTML=`
+            <div style="background:#fee2e2;color:#991b1b;padding:10px;border-radius:8px">
+                ✕ This car is not available for the selected dates.
+                Please select another car or dates.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* ================= TOTAL ================= */
+
+function calculateTotal(){
+
+    const carId=document.getElementById("bookingCar").value;
+
+    const start=document.getElementById("pickupDate").value;
+
+    const end=document.getElementById("returnDate").value;
+
+    if(!carId || !start || !end){
+
+        document.getElementById("subtotal").textContent="₹0";
+
+        document.getElementById("discount").textContent="₹0";
+
+        document.getElementById("tax").textContent="₹0";
+
+        document.getElementById("grandTotal").textContent="₹0";
+
+        return;
+
+    }
+
+
+    const car=cars.find(c=>c.id==carId);
+
+    if(!car) return;
+
+
+    const days=dateDifference(start,end);
+
+    const subtotal=car.price*days;
+
+    const coupon=document.getElementById("coupon").value.trim().toUpperCase();
+
+    const discount=
+        coupon==="DRIVE10"
+        ? subtotal*.10
+        : 0;
+
+    const taxable=subtotal-discount;
+
+    const tax=taxable*.05;
+
+    const total=taxable+tax;
+
+
+    document.getElementById("subtotal").textContent=money(subtotal);
+
+    document.getElementById("discount").textContent="- "+money(discount);
+
+    document.getElementById("tax").textContent=money(tax);
+
+    document.getElementById("grandTotal").textContent=money(total);
+
+}
+
+
+document.getElementById("coupon").addEventListener(
+    "input",
+    calculateTotal
+);
+
+
+/* ================= SUBMIT BOOKING ================= */
+
+function submitBooking(event){
+
+    event.preventDefault();
+
+
+    if(!currentUser){
+
+        toast("Please login or create an account before booking.");
+
+        openAuth();
+
+        return;
+
+    }
+
+
+    const carId=document.getElementById("bookingCar").value;
+
+    const pickupDate=document.getElementById("pickupDate").value;
+
+    const returnDate=document.getElementById("returnDate").value;
+
+
+    if(new Date(returnDate)<=new Date(pickupDate)){
+
+        toast("Return date must be after pickup date.");
+
+        return;
+
+    }
+
+
+    if(!isCarAvailable(carId,pickupDate,returnDate)){
+
+        toast("Sorry, this car is unavailable for these dates.");
+
+        checkBookingAvailability();
+
+        return;
+
+    }
+
+
+    const car=cars.find(c=>c.id==carId);
+
+    const days=dateDifference(pickupDate,returnDate);
+
+    const subtotal=car.price*days;
+
+    const coupon=document.getElementById("coupon").value.trim().toUpperCase();
+
+    const discount=coupon==="DRIVE10" ? subtotal*.10 : 0;
+
+    const tax=(subtotal-discount)*.05;
+
+    const total=subtotal-discount+tax;
+
+
+    const booking={
+
+        id:generateId(),
+
+        userId:currentUser.id,
+
+        customerName:document.getElementById("bookingName").value,
+
+        phone:document.getElementById("bookingPhone").value,
+
+        email:document.getElementById("bookingEmail").value,
+
+        carId:car.id,
+
+        carName:car.name,
+
+        pickupDate,
+
+        returnDate,
+
+        pickupLocation:document.getElementById("pickupLocation").value,
+
+        returnLocation:document.getElementById("returnLocation").value,
+
+        notes:document.getElementById("bookingNotes").value,
+
+        days,
+
+        subtotal,
+
+        discount,
+
+        tax,
+
+        total,
+
+        status:"Pending",
+
+        paymentStatus:"Pending",
+
+        paymentMethod:"",
+
+        createdAt:new Date().toISOString()
+
+    };
+
+
+    bookings.push(booking);
+
+    save(STORAGE.bookings,bookings);
+
+
+    addNotification(
+        `Booking ${booking.id} created successfully.`
+    );
+
+
+    openPaymentModal(booking.id);
+
+}
+
+
+/* ================= PAYMENT ================= */
+
+let currentPaymentBookingId=null;
+
+
+function openPaymentModal(bookingId){
+
+    currentPaymentBookingId=bookingId;
+
+    const booking=bookings.find(b=>b.id===bookingId);
+
+    if(!booking) return;
+
+
+    document.getElementById("paymentBookingSummary").innerHTML=`
+
+        <div style="background:var(--bg);padding:15px;border-radius:10px">
+
+            <strong>${booking.carName}</strong>
+
+            <br>
+
+            ${booking.pickupDate} → ${booking.returnDate}
+
+            <br>
+
+            Total:
+            <strong style="color:var(--primary)">
+                ${money(booking.total)}
+            </strong>
+
+        </div>
+
+    `;
+
+
+    document.getElementById("paymentMethod").value="UPI";
+
+    renderPaymentFields();
+
+    openModal("paymentModal");
+
+}
+
+
+function renderPaymentFields(){
+
+    const method=document.getElementById("paymentMethod").value;
+
+    const container=document.getElementById("paymentFields");
+
+
+    if(method==="UPI"){
+
+        container.innerHTML=`
+
+            <div class="form-group">
+
+                <label>UPI ID</label>
+
+                <input class="input"
+                       id="upiId"
+                       placeholder="example@upi">
+
+            </div>
+
+        `;
+
+    }
+
+    else if(method==="CARD"){
+
+        container.innerHTML=`
+
+            <div class="form-group">
+
+                <label>Card Number</label>
+
+                <input class="input"
+                       placeholder="XXXX XXXX XXXX XXXX">
+
+            </div>
+
+            <br>
+
+            <div class="form-grid">
+
+                <input class="input"
+                       placeholder="MM/YY">
+
+                <input class="input"
+                       placeholder="CVV">
+
+            </div>
+
+        `;
+
+    }
+
+    else{
+
+        container.innerHTML=`
+
+            <div style="background:#fef3c7;color:#92400e;padding:12px;border-radius:8px">
+
+                You can pay at the pickup location.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+function processPayment(){
+
+    const booking=bookings.find(
+        b=>b.id===currentPaymentBookingId
+    );
+
+    if(!booking) return;
+
+
+    const method=document.getElementById("paymentMethod").value;
+
+
+    booking.paymentMethod=method;
+
+
+    if(method==="PAY_AT_PICKUP"){
+
+        booking.paymentStatus="Pay at Pickup";
+
+    }else{
+
+        booking.paymentStatus="Paid";
+
+        booking.transactionId=
+            "TXN-"+Date.now();
+
+    }
+
+
+    save(STORAGE.bookings,bookings);
+
+    closeModal("paymentModal");
+
+    showConfirmation(booking.id);
+
+    renderBookingTable();
+
+    renderAdmin();
+
+
+    toast(
+        method==="PAY_AT_PICKUP"
+        ? "Booking confirmed. Pay at pickup."
+        : "Demo payment successful."
+    );
+
+}
+
+
+/* ================= CONFIRMATION ================= */
+
+let lastBookingId=null;
+
+
+function showConfirmation(bookingId){
+
+    const booking=bookings.find(b=>b.id===bookingId);
+
+    if(!booking) return;
+
+
+    lastBookingId=bookingId;
+
+
+    document.getElementById("confirmationSection")
+        .classList.remove("hidden");
+
+
+    document.getElementById("confirmationDetails").innerHTML=`
+
+        <div class="detail-grid">
+
+            <div class="detail-item">
+                <small>Booking ID</small>
+                <strong>${booking.id}</strong>
+            </div>
+
+            <div class="detail-item">
+                <small>Car</small>
+                <strong>${booking.carName}</strong>
+            </div>
+
+            <div class="detail-item">
+                <small>Pickup</small>
+                <strong>
+                    ${booking.pickupDate}<br>
+                    ${booking.pickupLocation}
+                </strong>
+            </div>
+
+            <div class="detail-item">
+                <small>Return</small>
+                <strong>
+                    ${booking.returnDate}<br>
+                    ${booking.returnLocation}
+                </strong>
+            </div>
+
+            <div class="detail-item">
+                <small>Booking Status</small>
+                ${statusBadge(booking.status)}
+            </div>
+
+            <div class="detail-item">
+                <small>Payment</small>
+                ${paymentBadge(booking.paymentStatus)}
+            </div>
+
+            <div class="detail-item" style="grid-column:1/-1">
+                <small>Total Amount</small>
+                <strong style="font-size:22px;color:var(--primary)">
+                    ${money(booking.total)}
+                </strong>
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.getElementById("confirmationSection")
+        .scrollIntoView({behavior:"smooth"});
+
+
+    renderBookingTable();
+
+}
+
+
+function goToBookings(){
+
+    document.getElementById("history")
+        .scrollIntoView({behavior:"smooth"});
+
+}
+
+
+function getCurrentBooking(){
+
+    return bookings.find(b=>b.id===lastBookingId);
+
+}
+
+
+/* ================= INVOICE ================= */
+
+function buildInvoice(booking){
+
+    return `
+
+        <div style="font-family:Arial;padding:20px">
+
+            <div style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap">
+
+                <div>
+
+                    <h1 style="color:#2563eb">
+                        DriveEasy
+                    </h1>
+
+                    <p>
+                        Car Rental Management System
+                    </p>
+
+                </div>
+
+                <div style="text-align:right">
+
+                    <h2>INVOICE</h2>
+
+                    <strong>${booking.id}</strong>
+
+                </div>
+
+            </div>
+
+            <hr style="margin:20px 0">
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+
+                <div>
+
+                    <strong>Customer</strong>
+
+                    <p>
+                        ${escapeHTML(booking.customerName)}<br>
+                        ${escapeHTML(booking.email)}<br>
+                        ${escapeHTML(booking.phone)}
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <strong>Car</strong>
+
+                    <p>
+                        ${escapeHTML(booking.carName)}<br>
+                        ${booking.days} day(s)
+                    </p>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <table style="width:100%;border-collapse:collapse">
+
+                <tr>
+                    <th style="padding:10px;border:1px solid #ddd;text-align:left">
+                        Description
+                    </th>
+
+                    <th style="padding:10px;border:1px solid #ddd;text-align:right">
+                        Amount
+                    </th>
+                </tr>
+
+                <tr>
+                    <td style="padding:10px;border:1px solid #ddd">
+                        Car rental
+                    </td>
+
+                    <td style="padding:10px;border:1px solid #ddd;text-align:right">
+                        ${money(booking.subtotal)}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:10px;border:1px solid #ddd">
+                        Discount
+                    </td>
+
+                    <td style="padding:10px;border:1px solid #ddd;text-align:right">
+                        - ${money(booking.discount)}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:10px;border:1px solid #ddd">
+                        Tax
+                    </td>
+
+                    <td style="padding:10px;border:1px solid #ddd;text-align:right">
+                        ${money(booking.tax)}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:10px;border:1px solid #ddd">
+                        <strong>Total</strong>
+                    </td>
+
+                    <td style="padding:10px;border:1px solid #ddd;text-align:right">
+                        <strong>${money(booking.total)}</strong>
+                    </td>
+                </tr>
+
+            </table>
+
+            <br>
+
+            <p>
+                <strong>Pickup:</strong>
+                ${booking.pickupDate} - ${escapeHTML(booking.pickupLocation)}
+            </p>
+
+            <p>
+                <strong>Return:</strong>
+                ${booking.returnDate} - ${escapeHTML(booking.returnLocation)}
+            </p>
+
+            <p>
+                <strong>Payment:</strong>
+                ${booking.paymentStatus}
+            </p>
+
+            <p>
+                <strong>Booking Status:</strong>
+                ${booking.status}
+            </p>
+
+            <br>
+
+            <p style="color:#64748b;font-size:12px">
+                Thank you for choosing DriveEasy.
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+function printInvoice(){
+
+    const booking=getCurrentBooking();
+
+    if(!booking) return;
+
+    document.getElementById("invoicePrint").innerHTML=
+        buildInvoice(booking);
+
+    openModal("invoiceModal");
+
+}
+
+
+function emailConfirmation(){
+
+    const booking=getCurrentBooking();
+
+    if(!booking){
+
+        toast("No booking selected.");
+
+        return;
+
+    }
+
+
+    const subject=
+        encodeURIComponent(
+            `DriveEasy Booking Confirmation - ${booking.id}`
+        );
+
+
+    const body=
+        encodeURIComponent(
+
+`Hello ${booking.customerName},
+
+Your DriveEasy booking has been created.
+
+Booking ID: ${booking.id}
+Car: ${booking.carName}
+
+Pickup:
+${booking.pickupDate} - ${booking.pickupLocation}
+
+Return:
+${booking.returnDate} - ${booking.returnLocation}
+
+Total: ${money(booking.total)}
+Payment: ${booking.paymentStatus}
+Status: ${booking.status}
+
+Thank you for choosing DriveEasy.`
+
+        );
+
+
+    window.location.href=
+        `mailto:${booking.email}?subject=${subject}&body=${body}`;
+
+}
+
+
+/* ================= HISTORY ================= */
+
+function statusBadge(status){
+
+    const cls={
+
+        Pending:"badge-pending",
+        Approved:"badge-approved",
+        Rejected:"badge-rejected",
+        Completed:"badge-completed",
+        Cancelled:"badge-cancelled"
+
+    }[status] || "badge-pending";
+
+
+    return `<span class="badge ${cls}">${status}</span>`;
+
+}
+
+
+function paymentBadge(status){
+
+    const cls=
+        status==="Paid"
+        ? "badge-paid"
+        : "badge-pending";
+
+
+    return `<span class="badge ${cls}">${status}</span>`;
+
+}
+
+
+function renderBookingTable(){
+
+    const container=document.getElementById("bookingHistory");
+
+
+    if(!currentUser){
+
+        container.innerHTML=`
+
+            <div class="booking-box" style="text-align:center">
+
+                <h3>Login to view your bookings</h3>
+
+                <p style="color:var(--muted)">
+                    Your reservations will appear here after login.
+                </p>
+
+                <br>
+
+                <button class="btn btn-primary"
+                        onclick="openAuth()">
+                    Login / Sign Up
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const mine=bookings.filter(
+        b=>b.userId===currentUser.id
+    );
+
+
+    if(!mine.length){
+
+        container.innerHTML=`
+
+            <div class="booking-box" style="text-align:center">
+
+                <h3>No bookings yet</h3>
+
+                <p style="color:var(--muted)">
+                    Book your first car to see it here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html=`
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Booking ID</th>
+                        <th>Car</th>
+                        <th>Dates</th>
+                        <th>Total</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+    `;
+
+
+    mine.slice().reverse().forEach(b=>{
+
+        html+=`
+
+            <tr>
+
+                <td>
+                    <strong>${b.id}</strong>
+                </td>
+
+                <td>${escapeHTML(b.carName)}</td>
+
+                <td>
+                    ${b.pickupDate}<br>
+                    ↓<br>
+                    ${b.returnDate}
+                </td>
+
+                <td>${money(b.total)}</td>
+
+                <td>${paymentBadge(b.paymentStatus)}</td>
+
+                <td>${statusBadge(b.status)}</td>
+
+                <td>
+
+                    <div class="admin-actions">
+
+                        <button class="btn btn-outline btn-small"
+                                onclick="openInvoice('${b.id}')">
+                            Invoice
+                        </button>
+
+                        ${
+                            ["Pending","Approved"].includes(b.status)
+                            ? `
+                            <button class="btn btn-danger btn-small"
+                                    onclick="cancelBooking('${b.id}')">
+                                Cancel
+                            </button>
+                            `
+                            : ""
+                        }
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html+=`
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+
+    container.innerHTML=html;
+
+}
+
+
+function openInvoice(id){
+
+    const booking=bookings.find(b=>b.id===id);
+
+    if(!booking) return;
+
+    lastBookingId=id;
+
+    document.getElementById("invoicePrint").innerHTML=
+        buildInvoice(booking);
+
+    openModal("invoiceModal");
+
+}
+
+
+function cancelBooking(id){
+
+    const booking=bookings.find(
+        b=>b.id===id &&
+        currentUser &&
+        b.userId===currentUser.id
+    );
+
+
+    if(!booking) return;
+
+
+    if(!confirm("Are you sure you want to cancel this booking?")){
+
+        return;
+
+    }
+
+
+    booking.status="Cancelled";
+
+    save(STORAGE.bookings,bookings);
+
+
+    addNotification(
+        `Booking ${booking.id} has been cancelled.`
+    );
+
+
+    renderBookingTable();
+
+    renderAdmin();
+
+    toast("Booking cancelled.");
+
+}
+
+
+/* ================= NOTIFICATIONS ================= */
+
+function addNotification(message){
+
+    notifications.unshift({
+
+        id:Date.now(),
+
+        message,
+
+        date:new Date().toLocaleString(),
+
+        read:false
+
+    });
+
+
+    notifications=notifications.slice(0,50);
+
+    save(STORAGE.notifications,notifications);
+
+    renderNotifications();
+
+}
+
+
+function renderNotifications(){
+
+    const count=document.getElementById("notificationCount");
+
+    const unread=notifications.filter(n=>!n.read).length;
+
+
+    if(unread){
+
+        count.textContent=unread;
+
+        count.classList.remove("hidden");
+
+    }else{
+
+        count.classList.add("hidden");
+
+    }
+
+
+    const list=document.getElementById("notificationList");
+
+
+    if(!notifications.length){
+
+        list.innerHTML=`
+
+            <p style="color:var(--muted)">
+                No notifications.
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML=notifications.map(n=>`
+
+        <div class="notification ${n.read ? "" : "unread"}">
+
+            <strong>${escapeHTML(n.message)}</strong>
+
+            <br>
+
+            <small>${n.date}</small>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+function toggleNotifications(){
+
+    renderNotifications();
+
+    openModal("notificationModal");
+
+}
+
+
+function markNotificationsRead(){
+
+    notifications.forEach(n=>n.read=true);
+
+    save(STORAGE.notifications,notifications);
+
+    renderNotifications();
+
+}
+
+
+/* ================= AVAILABILITY CALENDAR ================= */
+
+let calendarCarId=null;
+
+let calendarDate=new Date();
+
+
+function showAvailability(id){
+
+    calendarCarId=id;
+
+    calendarDate=new Date();
+
+    renderCalendar();
+
+    openModal("availabilityModal");
+
+}
+
+
+function changeCalendarMonth(amount){
+
+    calendarDate.setMonth(
+        calendarDate.getMonth()+amount
+    );
+
+    renderCalendar();
+
+}
+
+
+function isDayAvailable(carId,date){
+
+    const car=cars.find(c=>c.id===carId);
+
+    if(!car) return false;
+
+    if(car.status==="Maintenance" || car.status==="Booked")
+        return false;
+
+
+    const dayStart=new Date(date);
+
+    const dayEnd=new Date(date);
+
+    dayEnd.setDate(dayEnd.getDate()+1);
+
+
+    return !bookings.some(b=>{
+
+        if(Number(b.carId)!==Number(carId))
+            return false;
+
+        if(
+            b.status==="Rejected" ||
+            b.status==="Cancelled"
+        )
+            return false;
+
+
+        return datesOverlap(
+            dayStart,
+            dayEnd,
+            b.pickupDate,
+            b.returnDate
+        );
+
+    });
+
+}
+
+
+function renderCalendar(){
+
+    const car=cars.find(c=>c.id===calendarCarId);
+
+    if(!car) return;
+
+
+    const year=calendarDate.getFullYear();
+
+    const month=calendarDate.getMonth();
+
+
+    document.getElementById("calendarTitle").textContent=
+        `${car.name} - Availability`;
+
+
+    document.getElementById("calendarMonth").textContent=
+        new Date(year,month,1).toLocaleString(
+            "en-IN",
+            {month:"long",year:"numeric"}
+        );
+
+
+    const grid=document.getElementById("calendarGrid");
+
+    grid.innerHTML="";
+
+
+    [
+        "Sun","Mon","Tue","Wed",
+        "Thu","Fri","Sat"
+    ].forEach(day=>{
+
+        grid.innerHTML+=`
+            <div class="calendar-day-name">
+                ${day}
+            </div>
+        `;
+
+    });
+
+
+    const firstDay=new Date(year,month,1).getDay();
+
+    const daysInMonth=
+        new Date(year,month+1,0).getDate();
+
+
+    for(let i=0;i<firstDay;i++){
+
+        grid.innerHTML+=`<div></div>`;
+
+    }
+
+
+    for(let day=1;day<=daysInMonth;day++){
+
+        const date=new Date(year,month,day);
+
+        const available=isDayAvailable(
+            car.id,
+            date
+        );
+
+
+        const today=
+            new Date().toDateString()===date.toDateString();
+
+
+        grid.innerHTML+=`
+
+            <div class="calendar-day
+                ${available ? "available-day" : "unavailable-day"}
+                ${today ? "today" : ""}"
+                ${available
+                    ? `onclick="selectCalendarDate('${date.toISOString().slice(0,10)}',${car.id})"`
+                    : ""}>
+
+                <strong>${day}</strong>
+
+                <br>
+
+                <small>
+                    ${available ? "Available" : "Unavailable"}
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+function selectCalendarDate(date,carId){
+
+    document.getElementById("bookingCar").value=carId;
+
+    document.getElementById("pickupDate").value=date;
+
+    const next=new Date(date);
+
+    next.setDate(next.getDate()+1);
+
+    document.getElementById("returnDate").value=
+        next.toISOString().slice(0,10);
+
+    calculateTotal();
+
+    checkBookingAvailability();
+
+    closeModal("availabilityModal");
+
+    document.getElementById("booking")
+        .scrollIntoView({behavior:"smooth"});
+
+}
+
+
+/* ================= REVIEWS ================= */
+
+function submitReview(){
+
+    if(!currentUser){
+
+        toast("Please login to submit a review.");
+
+        openAuth();
+
+        return;
+
+    }
+
+
+    const car=document.getElementById("reviewCar").value;
+
+    const rating=Number(
+        document.getElementById("reviewRating").value
+    );
+
+    const comment=
+        document.getElementById("reviewComment")
+        .value.trim();
+
+
+    if(!car || !comment){
+
+        toast("Please select a car and write a review.");
+
+        return;
+
+    }
+
+
+    reviews.unshift({
+
+        id:Date.now(),
+
+        user:currentUser.name,
+
+        userId:currentUser.id,
+
+        car,
+
+        rating,
+
+        comment,
+
+        date:new Date().toISOString().slice(0,10)
+
+    });
+
+
+    save(STORAGE.reviews,reviews);
+
+    document.getElementById("reviewComment").value="";
+
+    renderReviews();
+
+    renderCars();
+
+    renderAdmin();
+
+    toast("Review submitted successfully.");
+
+}
+
+
+function renderReviews(){
+
+    const grid=document.getElementById("reviewsGrid");
+
+    grid.innerHTML="";
+
+
+    reviews.slice(0,12).forEach(r=>{
+
+        grid.innerHTML+=`
+
+            <div class="review-card">
+
+                <div class="rating">
+                    ${stars(r.rating)}
+                </div>
+
+                <p>
+                    "${escapeHTML(r.comment)}"
+                </p>
+
+                <div class="review-user">
+                    ${escapeHTML(r.user)}
+                </div>
+
+                <small style="color:var(--muted)">
+                    ${escapeHTML(r.car)} · ${r.date}
+                </small>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* ================= FAQ ================= */
+
+function toggleFAQ(button){
+
+    button.parentElement.classList.toggle("open");
+
+}
+
+
+/* ================= CONTACT ================= */
+
+function sendMessage(){
+
+    const name=document.getElementById("contactName").value.trim();
+
+    const email=document.getElementById("contactEmail").value.trim();
+
+    const message=document.getElementById("contactMessage").value.trim();
+
+
+    if(!name || !email || !message){
+
+        toast("Please fill all contact fields.");
+
+        return;
+
+    }
+
+
+    const messages=load(STORAGE.messages,[]);
+
+
+    messages.push({
+
+        id:Date.now(),
+
+        name,
+
+        email,
+
+        message,
+
+        date:new Date().toISOString()
+
+    });
+
+
+    save(STORAGE.messages,messages);
+
+
+    document.getElementById("contactName").value="";
+
+    document.getElementById("contactEmail").value="";
+
+    document.getElementById("contactMessage").value="";
+
+
+    toast("Message sent successfully.");
+
+}
+
+
+/* ================= ADMIN ================= */
+
+let adminLoggedIn=
+    sessionStorage.getItem("driveeasyAdmin")==="true";
+
+
+function openAdminLogin(){
+
+    openModal("adminLoginModal");
+
+}
+
+
+function adminLogin(){
+
+    const username=
+        document.getElementById("adminUsername").value.trim();
+
+    const password=
+        document.getElementById("adminPassword").value;
+
+
+    if(username==="admin" && password==="admin123"){
+
+        adminLoggedIn=true;
+
+        sessionStorage.setItem(
+            "driveeasyAdmin",
+            "true"
+        );
+
+        closeModal("adminLoginModal");
+
+        renderAdmin();
+
+        toast("Admin login successful.");
+
+    }else{
+
+        toast("Invalid admin credentials.");
+
+    }
+
+}
+
+
+function logoutAdmin(){
+
+    adminLoggedIn=false;
+
+    sessionStorage.removeItem("driveeasyAdmin");
+
+    document.getElementById("adminDashboard")
+        .classList.add("hidden");
+
+    document.getElementById("adminLoginArea")
+        .classList.remove("hidden");
+
+    toast("Admin logged out.");
+
+}
+
+
+function renderAdmin(){
+
+    if(!adminLoggedIn) return;
+
+
+    document.getElementById("adminDashboard")
+        .classList.remove("hidden");
+
+    document.getElementById("adminLoginArea")
+        .classList.add("hidden");
+
+
+    const revenue=bookings
+        .filter(b=>
+            b.paymentStatus==="Paid" &&
+            b.status!=="Cancelled" &&
+            b.status!=="Rejected"
+        )
+        .reduce((sum,b)=>sum+Number(b.total),0);
+
+
+    const paidBookings=bookings.filter(
+        b=>
+            b.paymentStatus==="Paid" &&
+            b.status!=="Cancelled" &&
+            b.status!=="Rejected"
+    );
+
+
+    const average=paidBookings.length
+        ? revenue/paidBookings.length
+        : 0;
+
+
+    document.getElementById("adminCars").textContent=cars.length;
+
+    document.getElementById("adminBookings").textContent=
+        bookings.length;
+
+    document.getElementById("adminRevenue").textContent=
+        money(revenue);
+
+    document.getElementById("adminAverage").textContent=
+        money(average);
+
+
+    renderAdminBookings();
+
+    renderAdminCars();
+
+    renderMaintenance();
+
+    renderCustomers();
+
+    renderAdminReviews();
+
+    renderRevenueChart();
+
+}
+
+
+function openAdminTab(panelId,button){
+
+    document.querySelectorAll(".admin-panel")
+        .forEach(p=>p.classList.remove("active"));
+
+    document.getElementById(panelId)
+        .classList.add("active");
+
+
+    document.querySelectorAll(".admin-tab")
+        .forEach(b=>b.classList.remove("active"));
+
+    button.classList.add("active");
+
+}
+
+
+/* ================= ADMIN BOOKINGS ================= */
+
+function renderAdminBookings(){
+
+    const tbody=document.getElementById("adminBookingsTable");
+
+    tbody.innerHTML="";
+
+
+    bookings.slice().reverse().forEach(b=>{
+
+        tbody.innerHTML+=`
+
+            <tr>
+
+                <td>${b.id}</td>
+
+                <td>
+                    ${escapeHTML(b.customerName)}
+                    <br>
+                    <small>${escapeHTML(b.email)}</small>
+                </td>
+
+                <td>${escapeHTML(b.carName)}</td>
+
+                <td>
+                    ${b.pickupDate}<br>
+                    ${b.returnDate}
+                </td>
+
+                <td>${money(b.total)}</td>
+
+                <td>${paymentBadge(b.paymentStatus)}</td>
+
+                <td>${statusBadge(b.status)}</td>
+
+                <td>
+
+                    <div class="admin-actions">
+
+                        ${
+                            b.status==="Pending"
+                            ? `
+                                <button class="btn btn-success btn-small"
+                                        onclick="updateBooking('${b.id}','Approved')">
+                                    Approve
+                                </button>
+
+                                <button class="btn btn-danger btn-small"
+                                        onclick="updateBooking('${b.id}','Rejected')">
+                                    Reject
+                                </button>
+                            `
+                            : ""
+                        }
+
+                        ${
+                            b.status==="Approved"
+                            ? `
+                                <button class="btn btn-primary btn-small"
+                                        onclick="updateBooking('${b.id}','Completed')">
+                                    Complete
+                                </button>
+                            `
+                            : ""
+                        }
+
+                        <button class="btn btn-outline btn-small"
+                                onclick="openInvoice('${b.id}')">
+                            Invoice
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+function updateBooking(id,status){
+
+    const booking=bookings.find(b=>b.id===id);
+
+    if(!booking) return;
+
+
+    booking.status=status;
+
+    save(STORAGE.bookings,bookings);
+
+
+    addNotification(
+        `Booking ${booking.id} is now ${status}.`
+    );
+
+
+    renderBookingTable();
+
+    renderAdmin();
+
+    toast(`Booking marked ${status}.`);
+
+}
+
+
+/* ================= ADMIN CARS ================= */
+
+function renderAdminCars(){
+
+    const tbody=document.getElementById("adminCarsTable");
+
+    tbody.innerHTML="";
+
+
+    cars.forEach(car=>{
+
+        tbody.innerHTML+=`
+
+            <tr>
+
+                <td>
+                    <strong>${escapeHTML(car.name)}</strong>
+                </td>
+
+                <td>${car.category}</td>
+
+                <td>${money(car.price)}</td>
+
+                <td>${car.fuel}</td>
+
+                <td>${car.status}</td>
+
+                <td>
+
+                    <div class="admin-actions">
+
+                        <button class="btn btn-outline btn-small"
+                                onclick="editCar(${car.id})">
+                            Edit
+                        </button>
+
+                        <button class="btn btn-warning btn-small"
+                                onclick="toggleMaintenance(${car.id})">
+                            Maintenance
+                        </button>
+
+                        <button class="btn btn-danger btn-small"
+                                onclick="deleteCar(${car.id})">
+                            Delete
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+function openCarForm(){
+
+    document.getElementById("carFormTitle").textContent="Add Car";
+
+    document.getElementById("editCarId").value="";
+
+    document.getElementById("carName").value="";
+
+    document.getElementById("carCategory").value="Sedan";
+
+    document.getElementById("carPrice").value="";
+
+    document.getElementById("carFuel").value="Petrol";
+
+    document.getElementById("carSeats").value="5";
+
+    document.getElementById("carStatus").value="Available";
+
+    document.getElementById("carImage").value="";
+
+
+    openModal("carFormModal");
+
+}
+
+
+function editCar(id){
+
+    const car=cars.find(c=>c.id===id);
+
+    if(!car) return;
+
+
+    document.getElementById("carFormTitle").textContent="Edit Car";
+
+    document.getElementById("editCarId").value=car.id;
+
+    document.getElementById("carName").value=car.name;
+
+    document.getElementById("carCategory").value=car.category;
+
+    document.getElementById("carPrice").value=car.price;
+
+    document.getElementById("carFuel").value=car.fuel;
+
+    document.getElementById("carSeats").value=car.seats;
+
+    document.getElementById("carStatus").value=car.status;
+
+    document.getElementById("carImage").value=car.image;
+
+
+    openModal("carFormModal");
+
+}
+
+
+function saveCar(){
+
+    const id=document.getElementById("editCarId").value;
+
+    const carData={
+
+        name:document.getElementById("carName").value.trim(),
+
+        category:document.getElementById("carCategory").value,
+
+        price:Number(document.getElementById("carPrice").value),
+
+        fuel:document.getElementById("carFuel").value,
+
+        seats:Number(document.getElementById("carSeats").value),
+
+        status:document.getElementById("carStatus").value,
+
+        image:document.getElementById("carImage").value.trim()
+
+    };
+
+
+    if(
+        !carData.name ||
+        !carData.price ||
+        !carData.seats ||
+        !carData.image
+    ){
+
+        toast("Please fill all car details.");
+
+        return;
+
+    }
+
+
+    if(id){
+
+        const index=cars.findIndex(c=>c.id==id);
+
+        if(index>=0){
+
+            cars[index]={
+                ...cars[index],
+                ...carData
+            };
+
+        }
+
+    }else{
+
+        cars.push({
+
+            id:Date.now(),
+
+            ...carData
+
+        });
+
+    }
+
+
+    save(STORAGE.cars,cars);
+
+    closeModal("carFormModal");
+
+    renderAll();
+
+    toast("Car saved successfully.");
+
+}
+
+
+function toggleMaintenance(id){
+
+    const car=cars.find(c=>c.id===id);
+
+    if(!car) return;
+
+
+    car.status=
+        car.status==="Maintenance"
+        ? "Available"
+        : "Maintenance";
+
+
+    save(STORAGE.cars,cars);
+
+    renderAll();
+
+    toast(
+        car.status==="Maintenance"
+        ? "Car moved to maintenance."
+        : "Car is available again."
+    );
+
+}
+
+
+function deleteCar(id){
+
+    const car=cars.find(c=>c.id===id);
+
+    if(!car) return;
+
+
+    if(
+        !confirm(
+            `Delete ${car.name}?`
+        )
+    ) return;
+
+
+    cars=cars.filter(c=>c.id!==id);
+
+    save(STORAGE.cars,cars);
+
+    renderAll();
+
+    toast("Car deleted.");
+
+}
+
+
+/* ================= MAINTENANCE ================= */
+
+function openMaintenanceForm(){
+
+    const select=
+        document.getElementById("maintenanceCar");
+
+    select.innerHTML="";
+
+    cars.forEach(car=>{
+
+        select.innerHTML+=`
+
+            <option value="${car.id}">
+                ${escapeHTML(car.name)}
+            </option>
+
+        `;
+
+    });
+
+
+    document.getElementById("serviceDate").value=
+        new Date().toISOString().slice(0,10);
+
+
+    document.getElementById("nextService").value="";
+
+    document.getElementById("maintenanceCost").value="";
+
+    document.getElementById("maintenanceNotes").value="";
+
+
+    openModal("maintenanceModal");
+
+}
+
+
+function saveMaintenance(){
+
+    const carId=Number(
+        document.getElementById("maintenanceCar").value
+    );
+
+    const car=cars.find(c=>c.id===carId);
+
+
+    const record={
+
+        id:Date.now(),
+
+        carId,
+
+        carName:car ? car.name : "",
+
+        serviceDate:document.getElementById("serviceDate").value,
+
+        nextService:document.getElementById("nextService").value,
+
+        cost:Number(
+            document.getElementById("maintenanceCost").value
+        ) || 0,
+
+        notes:document.getElementById("maintenanceNotes").value,
+
+        status:"Completed"
+
+    };
+
+
+    maintenanceRecords.push(record);
+
+    save(
+        STORAGE.maintenance,
+        maintenanceRecords
+    );
+
+
+    if(car){
+
+        car.status="Maintenance";
+
+        save(STORAGE.cars,cars);
+
+    }
+
+
+    closeModal("maintenanceModal");
+
+    renderAll();
+
+    toast("Maintenance record saved.");
+
+}
+
+
+function renderMaintenance(){
+
+    const tbody=document.getElementById("maintenanceTable");
+
+    tbody.innerHTML="";
+
+
+    if(!maintenanceRecords.length){
+
+        tbody.innerHTML=`
+
+            <tr>
+                <td colspan="6" style="text-align:center">
+                    No maintenance records.
+                </td>
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    maintenanceRecords.slice().reverse().forEach(r=>{
+
+        tbody.innerHTML+=`
+
+            <tr>
+
+                <td>${escapeHTML(r.carName)}</td>
+
+                <td>${r.serviceDate}</td>
+
+                <td>${r.nextService || "-"}</td>
+
+                <td>${money(r.cost)}</td>
+
+                <td>${escapeHTML(r.notes)}</td>
+
+                <td>
+                    <span class="badge badge-completed">
+                        ${r.status}
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* ================= CUSTOMERS ================= */
+
+function renderCustomers(){
+
+    const tbody=document.getElementById("customersTable");
+
+    tbody.innerHTML="";
+
+
+    users.forEach(user=>{
+
+        const mine=bookings.filter(
+            b=>b.userId===user.id
+        );
+
+
+        const revenue=mine
+            .filter(b=>b.paymentStatus==="Paid")
+            .reduce((sum,b)=>sum+Number(b.total),0);
+
+
+        tbody.innerHTML+=`
+
+            <tr>
+
+                <td>${escapeHTML(user.name)}</td>
+
+                <td>${escapeHTML(user.email)}</td>
+
+                <td>${escapeHTML(user.phone)}</td>
+
+                <td>${mine.length}</td>
+
+                <td>${money(revenue)}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    if(!users.length){
+
+        tbody.innerHTML=`
+
+            <tr>
+                <td colspan="5" style="text-align:center">
+                    No registered customers.
+                </td>
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+/* ================= ADMIN REVIEWS ================= */
+
+function renderAdminReviews(){
+
+    const tbody=document.getElementById("adminReviewsTable");
+
+    tbody.innerHTML="";
+
+
+    reviews.forEach(r=>{
+
+        tbody.innerHTML+=`
+
+            <tr>
+
+                <td>${escapeHTML(r.user)}</td>
+
+                <td>${escapeHTML(r.car)}</td>
+
+                <td>
+                    <span class="rating">
+                        ${stars(r.rating)}
+                    </span>
+                </td>
+
+                <td>${escapeHTML(r.comment)}</td>
+
+                <td>
+
+                    <button class="btn btn-danger btn-small"
+                            onclick="deleteReview(${r.id})">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+function deleteReview(id){
+
+    if(!confirm("Delete this review?")) return;
+
+
+    reviews=reviews.filter(
+        r=>r.id!==id
+    );
+
+
+    save(STORAGE.reviews,reviews);
+
+    renderReviews();
+
+    renderAdmin();
+
+    renderCars();
+
+    toast("Review deleted.");
+
+}
+
+
+/* ================= REVENUE ANALYTICS ================= */
+
+function renderRevenueChart(){
+
+    const chart=document.getElementById("revenueChart");
+
+    const months=[];
+
+    const now=new Date();
+
+
+    for(let i=5;i>=0;i--){
+
+        const d=new Date(
+            now.getFullYear(),
+            now.getMonth()-i,
+            1
+        );
+
+        months.push({
+
+            label:d.toLocaleString(
+                "en-IN",
+                {month:"short"}
+            ),
+
+            year:d.getFullYear(),
+
+            month:d.getMonth(),
+
+            revenue:0
+
+        });
+
+    }
+
+
+    bookings.forEach(b=>{
+
+        if(
+            b.paymentStatus!=="Paid" ||
+            b.status==="Cancelled" ||
+            b.status==="Rejected"
+        )
+            return;
+
+
+        const d=new Date(b.createdAt);
+
+
+        const item=months.find(m=>
+            m.year===d.getFullYear() &&
+            m.month===d.getMonth()
+        );
+
+
+        if(item){
+
+            item.revenue+=Number(b.total);
+
+        }
+
+    });
+
+
+    const max=Math.max(
+        ...months.map(m=>m.revenue),
+        1
+    );
+
+
+    chart.innerHTML=months.map(m=>{
+
+        const height=
+            Math.max(
+                5,
+                (m.revenue/max)*90
+            );
+
+
+        return `
+
+            <div class="bar-wrap">
+
+                <div class="bar"
+                     style="height:${height}%"
+                     title="${money(m.revenue)}">
+
+                    <span>
+                        ${m.label}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* ================= EXPORT ================= */
+
+function exportData(){
+
+    if(!adminLoggedIn){
+
+        toast("Admin login required.");
+
+        return;
+
+    }
+
+
+    const data={
+
+        cars,
+
+        bookings,
+
+        users,
+
+        reviews,
+
+        maintenanceRecords,
+
+        exportedAt:new Date().toISOString()
+
+    };
+
+
+    const blob=new Blob(
+        [JSON.stringify(data,null,2)],
+        {type:"application/json"}
+    );
+
+
+    const url=URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+
+    a.href=url;
+
+    a.download=
+        `driveeasy-backup-${Date.now()}.json`;
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    toast("Data exported successfully.");
+
+}
+
+
+/* ================= RENDER ALL ================= */
+
+function renderAll(){
+
+    renderCars();
+
+    renderBookingOptions();
+
+    renderBookingTable();
+
+    renderReviews();
+
+    renderNotifications();
+
+    updateStats();
+
+    renderAdmin();
+
+}
+
+
+function updateStats(){
+
+    const available=cars.filter(
+        c=>c.status==="Available"
+    ).length;
+
+
+    document.getElementById("availableCount")
+        .textContent=available;
+
+
+    document.getElementById("bookingCount")
+        .textContent=bookings.length;
+
+}
+
+
+/* ================= DATE LIMITS ================= */
+
+function setDateLimits(){
+
+    const today=
+        new Date().toISOString().slice(0,10);
+
+
+    document.getElementById("pickupDate")
+        .min=today;
+
+    document.getElementById("returnDate")
+        .min=today;
+
+}
+
+
+document.getElementById("pickupDate")
+    .addEventListener("change",()=>{
+
+        const pickup=
+            document.getElementById("pickupDate").value;
+
+        document.getElementById("returnDate").min=
+            pickup || new Date().toISOString().slice(0,10);
+
+    });
+
+
+/* ================= MODAL CLICK OUTSIDE ================= */
+
+document.querySelectorAll(".modal")
+.forEach(modal=>{
+
+    modal.addEventListener("click",e=>{
+
+        if(e.target===modal){
+
+            modal.classList.remove("show");
+
+        }
+
+    });
+
+});
+
+
+/* ================= INITIALIZE ================= */
+
+updateAuthUI();
+
+prefillBooking();
+
+setDateLimits();
+
+renderAll();
+
+
+/*
+============================================================
+REAL EMAIL INTEGRATION
+============================================================
+
+For automatic email sending in production, use:
+
+- EmailJS
+- SendGrid
+- Resend
+- Nodemailer backend
+- Firebase/Node.js backend
+
+The current email button uses mailto: so the user's email
+application opens automatically.
+
+============================================================
+REAL PAYMENT INTEGRATION
+============================================================
+
+For real payments use:
+
+- Razorpay
+- Stripe
+- PayU
+- Cashfree
+
+Do NOT put secret payment keys in this HTML file.
+
+A secure production system should create the payment order
+from the backend and verify payment on the server.
+
+============================================================
+REAL AUTHENTICATION
+============================================================
+
+This demo stores customer accounts in localStorage.
+
+For production use:
+
+- Firebase Authentication
+- Supabase Auth
+- Node.js + MySQL
+- PHP + MySQL
+- MongoDB
+- JWT/session authentication
+
+Never store passwords as plain text in localStorage.
+
+============================================================
+DATABASE
+============================================================
+
+Current demo database:
+
+driveeasyCars
+driveeasyBookings
+driveeasyUsers
+driveeasyCurrentUser
+driveeasyNotifications
+driveeasyReviews
+driveeasyMaintenance
+driveeasyMessages
+
+All are stored in browser localStorage.
+
+============================================================
+*/
+
+</script>
+
+</body>
+</html>
+
